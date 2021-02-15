@@ -1,6 +1,6 @@
-# CS71 Lab 8: Git Workshop
+# Git Workshop
 <span style="color:#555555">
-In which, mysteries long hidden are revealed...
+In which, mysteries hidden are revealed...
 </span>
 
 - - -
@@ -25,6 +25,10 @@ SVN, CVS, and RCS. These systems are important because they allow us to
 * merge versions
 * keep track of code releases (via tags or branches)
 * work in parallel on the same codebase across teams or across different computers
+
+Github is a hosting service for git-based repositories. Github gives us an easy way to backup our repositoryies on 
+a server so they can be shared across machines or with otehr people. Github also provides a lot of helpful project 
+documentation and management tools.
 
 - - - - - - - 
 
@@ -54,12 +58,10 @@ Additional Readings:
 * [MIT Lecture: Version Control](https://ocw.mit.edu/ans7870/6/6.005/s16/classes/05-version-control/)
 * [Pro Git](http://git-scm.com/book) documents everything you might want to know. Reading [Pro Git: Git Basics](http://git-scm.com/book/en/v2/Getting-Started-Git-Basics) is a good place to start.
 * [Git command reference](http://git-scm.com/docs)
-* [Swarthmore CS Git Getting Started Guide](https://www.cs.swarthmore.edu/~newhall/unixhelp/git.php)
 
 - - - - - - - 
 
 ## Creating a new repository
-
 
 To start, we will create a new repository. There are two ways you can do this:
 
@@ -77,12 +79,135 @@ Let's use method #1 to create our repository:
 will provide a copy-able link which you can use to clone. The command should look like:
 
 ```
-git clone git@github.swarthmore.edu:<USERNAME>/git-practice.git
+git clone git@github.com:<USERNAME>/git-practice.git
 ```
 
-* Add your professor as a collaborator. Go to 'Settings' -> 'Collaborators' and add anormoy1. 
+Now, there are two copies of the repository. One is on the server, hosted at Github. The other is on your 
+local machine!
 
-The following sections contain questions for you to fill out. Put your answers in README.md.
+* Add your professor as a collaborator. Go to 'Settings' -> 'Collaborators' and add alinen. 
+
+**The following sections contain questions for you to fill out. Put your answers in Answers.md.**
+
+>NOTE: `.md` stands for markdown. Markdown can be used to generate styled HTML using easy-to-read text files. In fact, this README is written in >markdown. You can look at the raw file to see what it looks like. 
+>[Click here for a markdown reference](https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf)
+
+- - - - - - - 
+
+## Your first commit
+
+A *commit* is a snapshot of your project, saved in git. Git assigns each commit a unique identifier. Under the hood, git represents each
+commit as a node in an acylic tree data structure. Edges represent changes between versions. A repository is changed whenever a 
+developer adds, removes, or edits a file.
+
+Create a new file `hello.txt`, write a fun message, and save it under `git-practice`.  
+
+* `git status` shows you the current changes to the repository
+* `git add <filenames>` will tag files for committing. This is called **staging** files for commit. You can use file patterns or names. 
+** `git add .` adds every change to the staging area, recursively from the current directory
+** `git add *.cpp` adds every modified cpp file to the staging area, recursively from the current directory
+** `git add hello.txt` adds one file
+* `git commit -m "Add fun message"` commits the staged file(s) with the given message. **Best practice is to always specifiy a descriptive commit messages**. These messages will help you navigate your git history latter. 
+
+Below is an example of running the above commands
+
+```
+alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
+$ ls
+LICENSE  README.md  hello.txt
+
+alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
+$ cat hello.txt
+This is a fun message.
+
+alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        hello.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
+$ git add hello.txt
+
+alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   hello.txt
+
+
+alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
+$ git commit -m "A fun message"
+[main 783f061] A fun message
+ 1 file changed, 1 insertion(+)
+ create mode 100644 hello.txt
+
+```
+
+We have now saved our changes locally. To backup the changes remotely, you need to `push` the changes back to github.
+
+```
+alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
+$ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 329 bytes | 65.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To github.com:BrynMawr-CS312-2021/git-workshop.git
+   8ead3cf..783f061  main -> main
+```
+
+You can see a log of the changes made to the repository. The log shows the IDs and timestamps of each commit. Below, the 
+repository was changed 3 times: an intial commit, adding a README.md file, and adding hello.txt. The commit ID where we added 
+`hello.txt` was 783f0610dbf6c0a357afd9f6e4c4fc18ea595004. 
+
+```
+alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
+$ git log
+commit 783f0610dbf6c0a357afd9f6e4c4fc18ea595004 (HEAD -> main, origin/main, origin/HEAD)
+Author: alinen <nenila@gmail.com>
+Date:   Mon Feb 15 16:25:34 2021 -0500
+
+    A fun message
+
+commit 8ead3cf229517821a9bdcfe6561f75628387ce81
+Author: alinen <nenila@gmail.com>
+Date:   Mon Feb 15 15:40:13 2021 -0500
+
+    README file
+
+commit 771d17de3e3a9fa87da25172283a80264ac98384
+Author: alinen <alinen@users.noreply.github.com>
+Date:   Mon Feb 15 15:38:13 2021 -0500
+
+    Initial commit
+```
+
+**NOTE:** You can tell git to ignore changes from certain files by listing them in `.gitignore`. Best practice is to put generated and temporary files into .gitignore. For example, the following `.gitignore` file ignores several common generated files.
+
+```
+*~
+Debug
+Release
+.DS_Store
+```
+
+### Exercise 1
+
+Edit your own `hello.txt` and commit your changes. 
+
+**1a.** What is the commit ID of your change? <br>
+**1b.** Use `git log` to find out the time stamp for your commit<br>
 
 - - - - - - - 
 
@@ -139,11 +264,11 @@ its parent commit. For example,
 
 ![](https://ocw.mit.edu/ans7870/6/6.005/s16/classes/05-version-control/figures/hello-git-history.png)
 
-We can also view the history using tools like `gitg` (try it!)
+We can also view the history using tools like `gitg`
 
 ![](GitHistory.png)
 
-We are currently on a branch called *master*. It is a local repository. The
+We are currently on a branch called *master*. In your new repository, the main branch was called *main*. It is a local repository. The
 remote repository is located at *origin/master*.  When we `git clone`, we
 download a copy of the repository's history graph. Git uses **origin/master** like a
 bookmark to remember where we cloned from. 
@@ -152,7 +277,7 @@ bookmark to remember where we cloned from.
 * When we `git pull`, we download remote commits to our local repository
 
 
-Git also needs to store information about the contents of all its files. Git does this using **tree nodes**. Tree 
+Git also needs to store information about the contents of all its files. Git does this using its **tree nodes**. Tree 
 nodes store diffs between versions as well as human-friendly log messages. If we visualize the tree nodes, our 
 graph now looks like:
 
@@ -202,7 +327,7 @@ Date:   Mon Sep 14 14:56:00 2015 -0400
 ![](https://ocw.mit.edu/ans7870/6/6.005/s16/classes/05-version-control/figures/hello-git-history-trees.png)
 
 The last important book-keeping Git performs involves the **staging area** (aka **index** inside `.git`). This 
-is where Git stores your file state with you do a `git add`. 
+is where Git stores your file state when you do a `git add`. 
 
 The history, tree, and staging area are all pieces of the **object graph** that Git uses to manage repositories. 
 So far, we've talked about what information is stored in the object graph, but not *where* it stores this information. The 
@@ -223,13 +348,12 @@ drwxrwxr-x 8 alinen alinen 4096 Mar 31 15:25 .git  <------ location of all .git 
 -rw-rw-r-- 1 alinen alinen  368 Mar 31 15:25 .project
 ```
 
-### Exercise 1: A new commit
+### Exercise 2: A new commit
 
-Edit `hello.txt` and commit your changes. 
+Look at the `git log` from your repository `git-workshop`. 
 
-**1a.** Use the output of `git lol` to find the ID of your commit<br>
-**1b.** Use `git log` to find out the time stamp for your commit<br>
-**1c.** Where are the pointers for Head in both the local and remote repositories?<br>
+**2a.** Where are the pointers for Head in both the local and remote repositories?<br>
+**2b.** Consider the following: 
 
 The output of `git status` says:
 
@@ -240,19 +364,19 @@ Your branch is ahead of 'origin/master' by 1 commit.
 
 nothing to commit, working tree clean
 ```
+What does this message mean: "Your branch is ahead of 'origin/master' by 1 commit."? <br>
 
-**1d.** What does this message mean: "Your branch is ahead of 'origin/master' by 1 commit."? <br>
 **1e.** Why does Git report: "nothing to commit, working tree clean"?<br>
 
-### Exercise 2: Merging
+### Exercise 3: Merging
 
 We can see from the graph that Alyssa and Ben both made simultaneous commits. Read the description 
 [here](https://ocw.mit.edu/ans7870/6/6.005/s16/classes/05-version-control/#merging) to see what happened.
 
-**2a.** Why is Ben unable to push his commit without merging?<br>
-**2b.** If Ben had pushed his code before Alyssa, how would the history graph change?<br>
+**3a.** Why is Ben unable to push his commit without merging?<br>
 
-### Exercise 3: Looking at files
+
+### Exercise 4: Looking at files
  
 Use the `git show` command to see the contents of any commit. 
 
@@ -291,12 +415,12 @@ $ git show b0b54b3:hello.txt
 Hello again, version control!
 ```
 
-**3a.** Use git show to see the how to file `hello.txt` changed each commit. Copy and paste the commands in your README.md<br>
+**4a.** Make another change to `hello.txt`. Use git show to see the how to file `hello.txt` changes. Copy and paste the results of your commands here in your README.md<br>
 
-### Exercise 4: Reverting to a previous version
+### Exercise 5: Reverting to a previous version
 
 Suppose we wish to undo our changes and revert back to the state of the remote
-repository of our last pull (or clone). DANGER ZONE: THIS WILL CLOBBER YOUR LOCAL COMMITS (LOSES WORK)! 
+repository of our last pull (or clone). DANGER ZONE: THIS WILL CLOBBER YOUR LOCAL COMMITS (LOSES WORK/USE WITH CAUTION)! 
 
 ```
 $ **git reset --hard origin**
@@ -331,9 +455,9 @@ do so (now or later) by using -b with the checkout command again. Example:
 HEAD is now at 1255f4e Change the greeting
 ```
 
-**4a** What is the output of `git lol`<br>
-**4b** The warning message says that we're not allowed to persistent changes to this commit, unless we create a new branch. Why might this be? If we make changes to this version, what would happen to the commits at 82e049e and 6400936? <br>
-**4c** If we call `git checkout master`, what happens? Use `git lol`<br>
+**5a** What is the output of `git lol`<br>
+**5b** The warning message says that we're not allowed to make persistent changes to this commit, unless we create a new branch. Why might this be? If we make changes to this version, what would happen to the commits at 82e049e and 6400936? <br>
+**5c** If we call `git checkout master`, what happens? Use `git lol`<br>
 
 - - - - 
 
