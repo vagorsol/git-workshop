@@ -153,7 +153,10 @@ $ git commit -m "A fun message"
 
 ```
 
-We have now saved our changes locally. To backup the changes remotely, you need to `push` the changes back to github.
+We have now saved our changes locally. Use `git log` to see a summary of all the changes made to the repository so far. Notice which commits 
+the pointers `HEAD` and `origin/HEAD` point to.
+
+To backup the changes remotely, you need to `push` the changes back to github.
 
 ```
 alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
@@ -170,7 +173,8 @@ To github.com:BrynMawr-CS312-2021/git-workshop.git
 
 You can see a log of the changes made to the repository. The log shows the IDs and timestamps of each commit. Below, the 
 repository was changed 3 times: an intial commit, adding a README.md file, and adding hello.txt. The commit ID where we added 
-`hello.txt` was 783f0610dbf6c0a357afd9f6e4c4fc18ea595004. 
+`hello.txt` was 783f0610dbf6c0a357afd9f6e4c4fc18ea595004. Notice that the `HEAD` points to the same commit on both the local 
+and remote repositories.
 
 ```
 alinen@Xin /cygdrive/c/alinen/cs312/git-workshop
@@ -193,6 +197,8 @@ Date:   Mon Feb 15 15:38:13 2021 -0500
 
     Initial commit
 ```
+
+
 
 **NOTE:** You can tell git to ignore changes from certain files by listing them in `.gitignore`. Best practice is to put generated and temporary files into `.gitignore`. For example, the following `.gitignore` file ignores common generated files from vim and macOS.
 
@@ -234,12 +240,48 @@ Now, let's see what happens when you the remote and local repositories have conf
 
 Go back to Github and edit `hello.txt`. This will change the file on the remote repository. 
 
-Now, edit the file `hello.txt` on your local computer and commit the changes. This changes the file on the local respository.
+Now, edit the file `hello.txt` on your local computer and commit the changes. This changes the file on the local respository. 
+Now try to push your changes. You will get this error:
 
+```
+alinen@Xin MINGW64 /c/alinen/cs312/git-workshop (main)
+$ git push
+To github.com:BrynMawr-CS312-2021/git-workshop.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'git@github.com:BrynMawr-CS312-2021/git-workshop.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
 
+Ok, so let's try to pull
 
-### Exercise 2
+```
+alinen@Xin MINGW64 /c/alinen/cs312/git-workshop (main)
+$ git pull
+remote: Enumerating objects: 9, done.
+remote: Counting objects: 100% (9/9), done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 6 (delta 2), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (6/6), done.
+From github.com:BrynMawr-CS312-2021/git-workshop
+   baa94e5..c6adb85  main       -> origin/main
+Auto-merging hello.txt
+CONFLICT (content): Merge conflict in hello.txt
+Automatic merge failed; fix conflicts and then commit the result.
+```
 
+It doesn't work! Git doesn't know which change to keep. To fix the problem, we must edit the file and then check in the change. 
+
+Merging changes is common. Below are other options for dealing with conflicts:
+
+* `git checkout --theirs`: Use the remote version of the file
+* `git checkout --ours`: Use the local version of the file
+
+Sometimes you can't pull because you have *uncommitted* changes that conflict with the remote repository. In this case, either commit the 
+changes, or throw them away by running `git checkout .`
 
 ## Analyzing an existing Git repository
 
@@ -378,7 +420,7 @@ drwxrwxr-x 8 alinen alinen 4096 Mar 31 15:25 .git  <------ location of all .git 
 -rw-rw-r-- 1 alinen alinen  368 Mar 31 15:25 .project
 ```
 
-### Exercise 2: A new commit
+### Exercise 3: A new commit
 
 Look at the `git log` from your repository `git-workshop`. 
 
@@ -396,98 +438,7 @@ nothing to commit, working tree clean
 ```
 What does this message mean: "Your branch is ahead of 'origin/master' by 1 commit."? <br>
 
-**1e.** Why does Git report: "nothing to commit, working tree clean"?<br>
-
-### Exercise 3: Merging
-
-We can see from the graph that Alyssa and Ben both made simultaneous commits. Read the description 
-[here](https://ocw.mit.edu/ans7870/6/6.005/s16/classes/05-version-control/#merging) to see what happened.
-
-**3a.** Why is Ben unable to push his commit without merging?<br>
-
-
-### Exercise 4: Looking at files
- 
-Use the `git show` command to see the contents of any commit. 
-
-```
-$ git show 1255f4e
-commit 1255f4e4a5836501c022deb337fda3f8800b02e4
-Author: Max Goldman <maxg@mit.edu>
-Date:   Mon Sep 14 14:58:40 2015 -0400
-
-    Change the greeting
-
-diff --git a/hello.txt b/hello.txt
-index c1106ab..3462165 100644
---- a/hello.txt
-+++ b/hello.txt
-@@ -1 +1 @@
--Hello, version control!
-+Hello again, version control!
-```
-
-Note that Git only shows the diffs by default. If we want to see the full commit, add a `:` like so
-
-```
-$ git show 3e62e60:
-tree 3e62e60:
-
-hello.rb
-hello.scm
-hello.txt
-```
-
-And to see the state of an entire file
-
-```
-$ git show b0b54b3:hello.txt
-Hello again, version control!
-```
-
-**4a.** Make another change to `hello.txt`. Use git show to see the how to file `hello.txt` changes. Copy and paste the results of your commands here in your README.md<br>
-
-### Exercise 5: Reverting to a previous version
-
-Suppose we wish to undo our changes and revert back to the state of the remote
-repository of our last pull (or clone). DANGER ZONE: THIS WILL CLOBBER YOUR LOCAL COMMITS (LOSES WORK/USE WITH CAUTION)! 
-
-```
-$ **git reset --hard origin**
-HEAD is now at b0b54b3 Greeting in Java
-$ **git lol**
-* b0b54b3 (HEAD -> master, origin/master, origin/HEAD) Greeting in Java
-*   3e62e60 Merge
-|\  
-| * 6400936 Greeting in Scheme
-* | 82e049e Greeting in Ruby
-|/  
-* 1255f4e Change the greeting
-* 41c4b8f Initial commit
-```
-
-Suppose we wish to revert a previous version *without* losing all our changes. 
-We can use `git checkout <ID>`. Try the following:
-
-```
-$ **git checkout 1255f4e**
-Note: checking out '1255f4e'.
-
-You are in 'detached HEAD' state. You can look around, make experimental
-changes and commit them, and you can discard any commits you make in this
-state without impacting any branches by performing another checkout.
-
-If you want to create a new branch to retain commits you create, you may
-do so (now or later) by using -b with the checkout command again. Example:
-
-  git checkout -b <new-branch-name>
-
-HEAD is now at 1255f4e Change the greeting
-```
-
-**5a** What is the output of `git lol`<br>
-**5b** The warning message says that we're not allowed to make persistent changes to this commit, unless we create a new branch. Why might this be? If we make changes to this version, what would happen to the commits at 82e049e and 6400936? <br>
-**5c** If we call `git checkout master`, what happens? Use `git lol`<br>
+**2c.** Why does Git report: "nothing to commit, working tree clean"?<br>
 
 - - - - 
 
