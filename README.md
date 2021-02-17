@@ -60,6 +60,14 @@ Additional Readings:
 
 - - - - - - - 
 
+## Best Practives
+
+* Write descriptive commit messages, especially for non-trivial changes.
+* Commit early and often. There is no downside to commiting your work. You can always get back an old version of a file. 
+* Push changes to ensure that your work is backed-up.
+
+- - - - - - - 
+
 ## Creating a new repository
 
 To start, we will create a new repository. There are two ways you can do this:
