@@ -10,8 +10,7 @@ The goals for this lab assignment are:
 * Understanding source control concepts
 * Understanding how to add files and handle merges 
 * Understanding how git stores version control information
-* (Optional) Learning how to read Git logs and diffs
-* (Optional) Learning how to recover old versions of files and switch between versions
+* Learning how to read git logs 
 
 - - - - - - - 
 
@@ -283,6 +282,10 @@ Merging changes is common. Below are other options for dealing with conflicts:
 Sometimes you can't pull because you have *uncommitted* changes that conflict with the remote repository. In this case, either commit the 
 changes, or throw them away by running `git checkout .`
 
+### Exercise 2
+
+**2a.** Use `git log` to find the ID and time stamp for your merged commit to `hello.txt`<br>
+
 ## Analyzing an existing Git repository
 
 Git represents histories as a [directed acyclic graph
@@ -420,14 +423,13 @@ drwxrwxr-x 8 alinen alinen 4096 Mar 31 15:25 .git  <------ location of all .git 
 -rw-rw-r-- 1 alinen alinen  368 Mar 31 15:25 .project
 ```
 
-### Exercise 3: A new commit
+### Exercise 3: Understanding git messages
 
-Look at the `git log` from your repository `git-workshop`. 
+**3a.** How does git store changes to the repository? (1-2 sentences)
 
-**2a.** Where are the pointers for Head in both the local and remote repositories?<br>
-**2b.** Consider the following: 
+**3b.** How can local and remote repositories be synced? 
 
-The output of `git status` says:
+**3c.** Consider the following, where the output of `git status` says:
 
 ```
 On branch master
@@ -438,7 +440,7 @@ nothing to commit, working tree clean
 ```
 What does this message mean: "Your branch is ahead of 'origin/master' by 1 commit."? <br>
 
-**2c.** Why does Git report: "nothing to commit, working tree clean"?<br>
+**3d.** Why does Git report: "nothing to commit, working tree clean"?<br>
 
 - - - - 
 
