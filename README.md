@@ -1,6 +1,6 @@
 # Git Workshop
 <span style="color:#555555">
-In which, mysteries hidden are revealed...
+In which, mysteries are revealed...
 </span>
 
 - - -
