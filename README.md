@@ -10,7 +10,6 @@ The goals for this lab assignment are:
 * Understanding source control concepts
 * Understanding how to add files and handle merges 
 * Understanding how git stores version control information
-* Learning how to read git logs 
 
 - - - - - - - 
 
