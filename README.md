@@ -7,10 +7,11 @@ In which, mysteries hidden are revealed...
 
 The goals for this lab assignment are:
 
-* Understanding version control concepts
-* Understanding how Git stores version control information
-* Learning how to read Git logs and diffs
-* Learning how to recover old versions of files and switch between versions
+* Understanding source control concepts
+* Understanding how to add files and handle merges 
+* Understanding how git stores version control information
+* (Optional) Learning how to read Git logs and diffs
+* (Optional) Learning how to recover old versions of files and switch between versions
 
 - - - - - - - 
 
@@ -87,7 +88,7 @@ local machine!
 
 * Add your professor as a collaborator. Go to 'Settings' -> 'Collaborators' and add alinen. 
 
-**The following sections contain questions for you to fill out. Put your answers in Answers.md.**
+**The following sections contain questions for you to fill out. Put your answers in Readme.md.**
 
 >NOTE: `.md` stands for markdown. Markdown can be used to generate styled HTML using easy-to-read text files. In fact, this README is written in >markdown. You can look at the raw file to see what it looks like. 
 >[Click here for a markdown reference](https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf)
@@ -193,7 +194,7 @@ Date:   Mon Feb 15 15:38:13 2021 -0500
     Initial commit
 ```
 
-**NOTE:** You can tell git to ignore changes from certain files by listing them in `.gitignore`. Best practice is to put generated and temporary files into .gitignore. For example, the following `.gitignore` file ignores several common generated files.
+**NOTE:** You can tell git to ignore changes from certain files by listing them in `.gitignore`. Best practice is to put generated and temporary files into `.gitignore`. For example, the following `.gitignore` file ignores common generated files from vim and macOS.
 
 ```
 *~
@@ -206,10 +207,39 @@ Release
 
 Edit your own `hello.txt` and commit your changes. 
 
+Using your browser, go to your repository `git-workshop` on Github. Open the Readme.md file for editing and answer the following questions:
+
 **1a.** What is the commit ID of your change? <br>
 **1b.** Use `git log` to find out the time stamp for your commit<br>
 
 - - - - - - - 
+
+## Merges and conflicts
+
+In this section, we will see how git handles simultaneous changes to a repository. These features aloow multiple people to collaborate on the same project simultaeously.  In the previous exercise, you edited the file, Readme.md, on Github. Thus, the remote repository has changed, but the local 
+repository hasn't. 
+
+To download the changes from your remote repository, run `git pull` at the command line. It should look like:
+
+```
+alinen@Xin MINGW64 /c/alinen/cs312/git-workshop (main)
+$ git pull
+Updating 783f061..baa94e5
+Fast-forward
+ README.md | 178 ++++++++++++++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 151 insertions(+), 27 deletions(-)
+```
+
+Now, let's see what happens when you the remote and local repositories have conflicting changes.
+
+Go back to Github and edit `hello.txt`. This will change the file on the remote repository. 
+
+Now, edit the file `hello.txt` on your local computer and commit the changes. This changes the file on the local respository.
+
+
+
+### Exercise 2
+
 
 ## Analyzing an existing Git repository
 
