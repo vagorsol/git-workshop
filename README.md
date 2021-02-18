@@ -60,7 +60,7 @@ Additional Readings:
 
 - - - - - - - 
 
-## Best Practives
+## Best Practices
 
 * Write descriptive commit messages, especially for non-trivial changes.
 * Commit early and often. There is no downside to commiting your work. You can always get back an old version of a file. 
